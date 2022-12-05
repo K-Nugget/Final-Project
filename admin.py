@@ -1,18 +1,15 @@
 from socket import*
-import sys
-import time
-import os
-import numpy
-from http import server
 
+# defines basic tcp
 serverName = 'localhost'
 serverPort = 12000
 clientSocket = socket(AF_INET, SOCK_STREAM)
 
-
+# reads the file and converts it into binary
 file = open('img.jpg', 'rb')
 image_data = file.read(2048)
 
+#  prints the menu
 def menu():
     print("[1] Send Image")
     print("[2] Send JSON")
@@ -21,16 +18,16 @@ def menu():
 
 
 menu()
-option = int(input("Enter your Option: "))
+option = int(input("Enter your Option: ")) # to decide what to send
 
 while option != 0:
     if option == 1:
-        clientSocket.connect((serverName, serverPort))
-        while image_data:
-            clientSocket.send(image_data)
+        clientSocket.connect((serverName, serverPort)) # connects to the server
+        while image_data: # while the image is being sent
+            clientSocket.send(image_data) # sends the image data
             image_data = file.read(2048)
-        file.close()
-        clientSocket.close()
+        file.close() # stops reading the original image
+        clientSocket.close() # closes the connection to the receiving client
         print("Image Sent")
     elif option == 2:
         #send JSON
@@ -47,5 +44,4 @@ while option != 0:
     option = int(input("Enter your Option: "))
 
 
-clientSocket.close()
 print("Exiting Program")

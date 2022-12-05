@@ -1,27 +1,21 @@
-import time
 from socket import*
-from http import server
 from datetime import datetime
 
+# setting up the server to recive the image
 serverName = 'localhost'
 serverPort = 12000
-
 serverSocket = socket(AF_INET, SOCK_STREAM)
-
 serverSocket.bind((serverName, serverPort))
 serverSocket.listen(1)
-
 print("Server is ready")
-
 connectionSocket, addr = serverSocket.accept()
 
-file = open("recivedImage.jpg", "wb")
-image_chunk = connectionSocket.recv(2048)
+file = open("recivedImage.jpg", "wb") #creates the image, that will be writen to
+image_chunk = connectionSocket.recv(2048) 
 
  
-
+# loops the file writing until the image is completley transmitted
 while image_chunk:
-    file.write(image_chunk)
+    file.write(image_chunk) # writes to the .jpg
     image_chunk = connectionSocket.recv(2048)
-    print(datetime.now())
-file.close()
+file.close() # closes the acces to the file, so that the writing is finalized
